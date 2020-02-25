@@ -1,5 +1,7 @@
 package socialnetwork;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -23,7 +25,7 @@ public class User extends Thread {
 
   @Override
   public void run() {
-
+    decideAction();
   }
 
   @Override
@@ -44,7 +46,11 @@ public class User extends Thread {
         socialNetwork.getAllUsers();
         break;
       case 1:
+        int numberOfUsers = socialNetwork.getAllUsers().size();
+        List<User> recipients = new ArrayList<>();
+        for (int i = 0; i < numberOfUsers; i++) {
 
+        }
     }
   }
 }
