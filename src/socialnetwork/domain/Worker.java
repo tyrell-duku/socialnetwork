@@ -1,5 +1,7 @@
 package socialnetwork.domain;
 
+import socialnetwork.domain.interfaces.Backlog;
+
 public class Worker extends Thread {
 
   private final Backlog backlog;

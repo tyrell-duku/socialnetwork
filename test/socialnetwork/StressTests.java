@@ -13,8 +13,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.junit.Test;
-import socialnetwork.domain.Backlog;
-import socialnetwork.domain.Board;
+import socialnetwork.domain.interfaces.Backlog;
+import socialnetwork.domain.interfaces.Board;
 import socialnetwork.domain.Message;
 import socialnetwork.domain.Worker;
 

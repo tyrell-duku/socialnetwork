@@ -1,5 +1,6 @@
 package socialnetwork;
 
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class User extends Thread {
@@ -22,7 +23,7 @@ public class User extends Thread {
 
   @Override
   public void run() {
-    // Implement here
+
   }
 
   @Override
@@ -33,5 +34,17 @@ public class User extends Thread {
   @Override
   public int hashCode() {
     return id;
+  }
+
+  public void decideAction() {
+    Random r = new Random();
+    int choice = r.nextInt(0);
+    switch (choice) {
+      case 0:
+        socialNetwork.getAllUsers();
+        break;
+      case 1:
+
+    }
   }
 }

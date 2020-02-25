@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import socialnetwork.domain.Backlog;
-import socialnetwork.domain.Board;
 import socialnetwork.domain.Message;
 import socialnetwork.domain.Task;
 import socialnetwork.domain.Task.Command;
+import socialnetwork.domain.interfaces.Backlog;
+import socialnetwork.domain.interfaces.Board;
 
 public class SocialNetwork {
 
@@ -26,7 +27,8 @@ public class SocialNetwork {
     getBoards().put(user, board);
   }
 
-  public Message postMessage(User sender, Collection<User> recipients, String text) {
+  public Message postMessage(User sender, Collection<User> recipients,
+      String text) {
     checkUserRegistered(sender);
     assert !recipients.contains(sender) : "s:" + sender + " rec" + recipients;
     final Message message = new Message(sender, recipients, text);
@@ -38,11 +40,13 @@ public class SocialNetwork {
         .forEach(
             r -> {
               checkUserRegistered(r);
-              editsBacklog.add(new Task(Task.Command.POST, message, getBoards().get(r)));
+              editsBacklog.add(
+                  new Task(Task.Command.POST, message, getBoards().get(r)));
             });
     if (DEBUG) {
       System.out.println(
-          "new message " + message.getMessageId() + " from " + sender + " to " + allRecipients);
+          "new message " + message.getMessageId() + " from " + sender + " to "
+              + allRecipients);
     }
     return message;
   }
@@ -52,9 +56,11 @@ public class SocialNetwork {
         .filter(
             entry -> {
               User user = entry.getKey();
-              return message.getRecipients().contains(user) || message.getSender().equals(user);
+              return message.getRecipients().contains(user) || message
+                  .getSender().equals(user);
             })
-        .forEach(entry -> editsBacklog.add(new Task(Command.DELETE, message, entry.getValue())));
+        .forEach(entry -> editsBacklog
+            .add(new Task(Command.DELETE, message, entry.getValue())));
     if (DEBUG) {
       System.out.println(
           "deleting message "
@@ -74,7 +80,8 @@ public class SocialNetwork {
   private void checkUserRegistered(User user) {
     if (!getBoards().containsKey(user)) {
       throw new RuntimeException(
-          "Sender " + user + " not (correctly) registerd to the social network");
+          "Sender " + user
+              + " not (correctly) registerd to the social network");
     }
   }
 
@@ -84,5 +91,24 @@ public class SocialNetwork {
 
   public Set<User> getAllUsers() {
     return boards.keySet();
+  }
+
+
+  private static <E> E getRandomUser(Set<? extends E> set) {
+
+    Random random = new Random();
+    int randomNumber = random.nextInt(set.size());
+
+    int currentIndex = 0;
+    E randomElement = null;
+
+    for (E element : set) {
+      randomElement = element;
+      if (currentIndex == randomNumber) {
+        return randomElement;
+      }
+      currentIndex++;
+    }
+    return randomElement;
   }
 }

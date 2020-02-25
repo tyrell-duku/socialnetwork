@@ -1,6 +1,7 @@
 package socialnetwork.domain;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import socialnetwork.domain.interfaces.Board;
 
 public class Task {
 

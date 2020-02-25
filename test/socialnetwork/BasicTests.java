@@ -8,20 +8,22 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import org.junit.Test;
-import socialnetwork.domain.Backlog;
-import socialnetwork.domain.Board;
+import socialnetwork.domain.interfaces.Backlog;
+import socialnetwork.domain.interfaces.Board;
 import socialnetwork.domain.Message;
 import socialnetwork.domain.Task;
 import socialnetwork.domain.Task.Command;
 import socialnetwork.domain.Worker;
+import socialnetwork.domain.interfaces.FirstBacklog;
+import socialnetwork.domain.interfaces.FirstBoard;
 
 public class BasicTests {
 
   @Test
   public void testRegistration() {
     // TODO replace null here by your implementation of Board and Backlog
-    Backlog backlog = null;
-    Board board = null;
+    Backlog backlog = new FirstBacklog();
+    Board board = new FirstBoard();
     SocialNetwork socialNetwork = new SocialNetwork(backlog);
     User user = new User("test", socialNetwork);
     socialNetwork.register(user, board);
@@ -33,10 +35,10 @@ public class BasicTests {
   @Test
   public void testMessageLifecycle() {
     // TODO replace null here by your implementation of Board and Backlog
-    Backlog backlog = null;
-    Board board1 = null;
-    Board board2 = null;
-    Board board3 = null;
+    Backlog backlog = new FirstBacklog();
+    Board board1 = new FirstBoard();
+    Board board2 = new FirstBoard();
+    Board board3 = new FirstBoard();
     SocialNetwork socialNetwork = new SocialNetwork(backlog);
     User user1 = new User("test1", socialNetwork);
     User user2 = new User("test2", socialNetwork);
@@ -45,7 +47,8 @@ public class BasicTests {
     socialNetwork.register(user2, board2);
     socialNetwork.register(user3, board3);
 
-    Message sent = socialNetwork.postMessage(user1, Arrays.asList(user2, user3), "cats > dogs");
+    Message sent = socialNetwork
+        .postMessage(user1, Arrays.asList(user2, user3), "cats > dogs");
     assertEquals(3, backlog.numberOfTasksInTheBacklog());
 
     // the sender also receives his own message
