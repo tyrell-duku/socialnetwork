@@ -1,8 +1,7 @@
-package socialnetwork.domain;
+package socialnetwork.domain.implementations;
 
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
-import socialnetwork.User;
 
 public class Message {
 

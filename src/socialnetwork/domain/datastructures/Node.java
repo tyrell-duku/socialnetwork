@@ -1,4 +1,4 @@
-package socialnetwork.domain.interfaces;
+package socialnetwork.domain.datastructures;
 
 public class Node<E> {
 

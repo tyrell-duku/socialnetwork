@@ -1,7 +1,7 @@
 package socialnetwork.domain.interfaces;
 
 import java.util.List;
-import socialnetwork.domain.Message;
+import socialnetwork.domain.implementations.Message;
 
 public interface Board {
 

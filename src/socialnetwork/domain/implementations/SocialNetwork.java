@@ -1,4 +1,4 @@
-package socialnetwork;
+package socialnetwork.domain.implementations;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,19 +7,17 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import socialnetwork.domain.Message;
-import socialnetwork.domain.Task;
-import socialnetwork.domain.Task.Command;
+import socialnetwork.domain.implementations.Task.Command;
 import socialnetwork.domain.interfaces.Backlog;
 import socialnetwork.domain.interfaces.Board;
 
 public class SocialNetwork {
 
   public static final boolean DEBUG = false;
-  private final Backlog editsBacklog;
+  private final Backlog<Task> editsBacklog;
   private final Map<User, Board> boards = new ConcurrentHashMap<>();
 
-  public SocialNetwork(Backlog editsBacklog) {
+  public SocialNetwork(Backlog<Task> editsBacklog) {
     this.editsBacklog = editsBacklog;
   }
 
@@ -94,21 +92,19 @@ public class SocialNetwork {
   }
 
 
-  private static <E> E getRandomUser(Set<? extends E> set) {
+  public static <E> E getRandomUser(Set<E> users) {
+    return users.stream().skip(new Random().nextInt(users.size())).findFirst()
+        .orElse(null);
+  }
 
-    Random random = new Random();
-    int randomNumber = random.nextInt(set.size());
-
-    int currentIndex = 0;
-    E randomElement = null;
-
-    for (E element : set) {
-      randomElement = element;
-      if (currentIndex == randomNumber) {
-        return randomElement;
-      }
-      currentIndex++;
+  public static String generateRandomMessage(int length) {
+    StringBuilder sb = new StringBuilder();
+    Random r = new Random();
+    String chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    for (int i = 0; i < length; i++) {
+      int randomNumber = r.nextInt(chars.length());
+      sb.append(chars.charAt(randomNumber));
     }
-    return randomElement;
+    return sb.toString();
   }
 }

@@ -10,8 +10,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
+import socialnetwork.domain.implementations.Message;
+import socialnetwork.domain.implementations.SocialNetwork;
+import socialnetwork.domain.implementations.User;
 import socialnetwork.domain.interfaces.Board;
-import socialnetwork.domain.Message;
 
 /** Pretty much the same as User, but it stores any messages sent locally. */
 public class TestUser extends User {

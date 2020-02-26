@@ -1,8 +1,8 @@
-package socialnetwork.domain.interfaces;
+package socialnetwork.domain.implementations;
 
-import java.util.Collections;
 import java.util.List;
-import socialnetwork.domain.Message;
+import socialnetwork.domain.datastructures.LinkedList;
+import socialnetwork.domain.interfaces.Board;
 
 public class FirstBoard implements Board {
 
@@ -29,6 +29,6 @@ public class FirstBoard implements Board {
 
   @Override
   public List<Message> getBoardSnapshot() {
-    return messages.reverse();
+    return messages.toList();
   }
 }

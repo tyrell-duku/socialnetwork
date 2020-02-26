@@ -8,14 +8,16 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import org.junit.Test;
+import socialnetwork.domain.implementations.FirstBacklog;
+import socialnetwork.domain.implementations.FirstBoard;
+import socialnetwork.domain.implementations.Message;
+import socialnetwork.domain.implementations.SocialNetwork;
+import socialnetwork.domain.implementations.Task;
+import socialnetwork.domain.implementations.Task.Command;
+import socialnetwork.domain.implementations.User;
+import socialnetwork.domain.implementations.Worker;
 import socialnetwork.domain.interfaces.Backlog;
 import socialnetwork.domain.interfaces.Board;
-import socialnetwork.domain.Message;
-import socialnetwork.domain.Task;
-import socialnetwork.domain.Task.Command;
-import socialnetwork.domain.Worker;
-import socialnetwork.domain.interfaces.FirstBacklog;
-import socialnetwork.domain.interfaces.FirstBoard;
 
 public class BasicTests {
 

@@ -13,10 +13,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.junit.Test;
+import socialnetwork.domain.implementations.FirstBacklog;
+import socialnetwork.domain.implementations.FirstBoard;
+import socialnetwork.domain.implementations.Message;
+import socialnetwork.domain.implementations.SocialNetwork;
+import socialnetwork.domain.implementations.User;
+import socialnetwork.domain.implementations.Worker;
 import socialnetwork.domain.interfaces.Backlog;
 import socialnetwork.domain.interfaces.Board;
-import socialnetwork.domain.Message;
-import socialnetwork.domain.Worker;
 
 public class StressTests {
 
@@ -40,7 +44,8 @@ public class StressTests {
 
   @Test
   public void testLargeParams() {
-    ExperimentSettings settings = new ExperimentSettings(10, 100, 100, 20, 123456);
+    ExperimentSettings settings = new ExperimentSettings(10, 100, 100, 20,
+        123456);
     runExperiment(settings);
   }
 
@@ -64,7 +69,7 @@ public class StressTests {
 
   private void runExperiment(ExperimentSettings settings) {
     // TODO replace by your Backlog implementation
-    Backlog backlog = null;
+    Backlog backlog = new FirstBacklog();
     SocialNetwork socialNetwork = new SocialNetwork(backlog);
 
     Worker[] workers = new Worker[settings.nWorkers];
@@ -79,14 +84,15 @@ public class StressTests {
         userThreads,
         i -> {
           TestUser user = new TestUser("user" + i, socialNetwork);
-          user.getRandom().setSeed(settings.seed++); // use distinct seeds for each user
+          user.getRandom()
+              .setSeed(settings.seed++); // use distinct seeds for each user
           return user;
         });
     Arrays.stream(userThreads)
         .forEach(
             u -> {
               // TODO add your own board implementation
-              socialNetwork.register(u, null);
+              socialNetwork.register(u, new FirstBoard());
               u.start();
             });
 
@@ -108,7 +114,7 @@ public class StressTests {
       }
     }
 
-    Arrays.stream(workers).forEach(w -> w.interrupt());
+    Arrays.stream(workers).forEach(Worker::interrupt);
     Arrays.stream(workers)
         .forEach(
             w -> {
@@ -120,6 +126,7 @@ public class StressTests {
             });
 
     assertEquals(0, backlog.numberOfTasksInTheBacklog());
+    //TODO: Point reached in TestSmallParameters
     System.out.println("Work's done, checking for consistency...");
 
     Map<User, Set<Integer>> userToReceivedMessages = new HashMap<>();
@@ -130,7 +137,8 @@ public class StressTests {
       checkBoardOrdering(board);
 
       Set<Integer> messageIds =
-          board.getBoardSnapshot().stream().map(Message::getMessageId).collect(Collectors.toSet());
+          board.getBoardSnapshot().stream().map(Message::getMessageId)
+              .collect(Collectors.toSet());
       userToReceivedMessages.put(user, messageIds);
     }
 
@@ -138,12 +146,14 @@ public class StressTests {
     // check that all messages sent by an user were received properly
     for (TestUser tUser : userThreads) {
       Multimap<User, Message> userMessages = tUser.getSentMessages();
-      //      System.out.println(tUser + " ---> " + userMessages);
+      System.out.println(tUser + " ---> " + userMessages);
 
-      for (Map.Entry<User, Collection<Message>> entry : userMessages.asMap().entrySet()) {
+      for (Map.Entry<User, Collection<Message>> entry : userMessages.asMap()
+          .entrySet()) {
         User recipient = entry.getKey();
         List<Integer> sentMessageIds =
-            entry.getValue().stream().map(Message::getMessageId).collect(Collectors.toList());
+            entry.getValue().stream().map(Message::getMessageId)
+                .collect(Collectors.toList());
         Set<Integer> recipientBoard = userToReceivedMessages.get(recipient);
         assertTrue(recipientBoard.containsAll(sentMessageIds));
 
@@ -157,7 +167,8 @@ public class StressTests {
       Board userBoard = socialNetwork.userBoard(tUser);
       int expectedCount = expectedMessageCount.getOrDefault(tUser, 0);
       int actualCount = userBoard.size();
-      assertEquals("count for user " + tUser + " doesn't match!", expectedCount, actualCount);
+      assertEquals("count for user " + tUser + " doesn't match!", expectedCount,
+          actualCount);
     }
   }
 

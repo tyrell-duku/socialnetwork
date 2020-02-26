@@ -1,15 +1,16 @@
-package socialnetwork.domain.interfaces;
+package socialnetwork.domain.implementations;
 
 import java.util.Optional;
-import java.util.spi.LocaleNameProvider;
-import socialnetwork.domain.Task;
+import socialnetwork.domain.datastructures.LinkedList;
+import socialnetwork.domain.datastructures.Node;
+import socialnetwork.domain.interfaces.Backlog;
 
 public class FirstBacklog implements Backlog<Task> {
 
   private LinkedList<Task> backlog;
 
   public FirstBacklog() {
-    backlog = new LinkedList<Task>();
+    backlog = new LinkedList<>();
   }
 
   @Override
@@ -22,7 +23,7 @@ public class FirstBacklog implements Backlog<Task> {
     if (backlog.size() == 0) {
       return Optional.empty();
     }
-    Task t = backlog.poll().getItem();
+    Task t = backlog.peek().getItem();
     backlog.remove(t.getId());
     return Optional.of(t);
   }

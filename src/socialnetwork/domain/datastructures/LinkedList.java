@@ -1,9 +1,8 @@
-package socialnetwork.domain.interfaces;
+package socialnetwork.domain.datastructures;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import socialnetwork.domain.Task;
+import java.util.NoSuchElementException;
 
 public class LinkedList<T> {
 
@@ -16,8 +15,8 @@ public class LinkedList<T> {
   }
 
   public boolean add(T t) {
-    Node<T> tAsNode = new Node<T>(t, t.hashCode(), null);
-    if (contains(tAsNode)) {
+    Node<T> tAsNode = new Node<>(t, t.hashCode(), null);
+    if (contains(tAsNode) || t == null) {
       return false;
     }
     Node<T> followNode = headNode;
@@ -25,14 +24,16 @@ public class LinkedList<T> {
         && followNode.getNext() != null) {
       followNode = followNode.getNext();
     }
+    tAsNode.setNext(followNode.getNext());
     followNode.setNext(tAsNode);
+
     size++;
     return true;
   }
 
   public boolean remove(int key) {
     if (headNode.getNext() == null && key != headNode.getKey()) {
-      return false;
+      throw new NoSuchElementException("No elements inside an empty list.");
     }
     Node<T> followNode = headNode;
     Node<T> cycleThroughNode = followNode.getNext();
@@ -49,7 +50,12 @@ public class LinkedList<T> {
     return size;
   }
 
+  public Node<T> peek() {
+    return headNode.getNext();
+  }
+
   public Node<T> poll() {
+    remove(headNode.getNext().getKey());
     return headNode.getNext();
   }
 
@@ -80,13 +86,4 @@ public class LinkedList<T> {
     }
     return list;
   }
-
-  public List<T> reverse() {
-    List<T> reversed = new ArrayList<>();
-    for (int i = 0; i < size; i++) {
-      reversed.add(i, toList().get(size - (i + 1)));
-    }
-    return reversed;
-  }
-
 }

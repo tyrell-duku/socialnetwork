@@ -1,4 +1,4 @@
-package socialnetwork;
+package socialnetwork.domain.implementations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class User extends Thread {
 
   private static final AtomicInteger nextId = new AtomicInteger(0);
+  private Random r = new Random();
 
   protected final SocialNetwork socialNetwork;
   private final int id;
@@ -49,7 +50,21 @@ public class User extends Thread {
         int numberOfUsers = socialNetwork.getAllUsers().size();
         List<User> recipients = new ArrayList<>();
         for (int i = 0; i < numberOfUsers; i++) {
-
+          recipients
+              .add(SocialNetwork.getRandomUser(socialNetwork.getAllUsers()));
+        }
+        socialNetwork.postMessage(this, recipients,
+            SocialNetwork.generateRandomMessage(10));
+        break;
+      default:
+        socialNetwork.userBoard(this);
+        List<Message> userBoard =
+            socialNetwork.userBoard(this).getBoardSnapshot();
+        if (!userBoard.isEmpty()) {
+          for (int i = 0; i < 5; i++) { // User
+            int messageIndex = r.nextInt(userBoard.size());
+            socialNetwork.deleteMessage(userBoard.get(messageIndex));
+          }
         }
     }
   }
