@@ -15,11 +15,11 @@ public class LinkedListTests {
   @Test
   public void sizeTest() {
     LinkedList<Integer> l = new LinkedList<>();
-    l.add(2);
     l.add(203);
     l.add(78);
     l.add(203);
     l.add(100);
+    System.out.println(l.toList());
     assertEquals(4, l.size());
   }
 
@@ -62,7 +62,6 @@ public class LinkedListTests {
   public void containsTest() {
     LinkedList<String> s = new LinkedList<>();
     String st = "Haskell";
-    String st1 = "Java";
     String ocaml = "OCaml";
     s.add("Haskell");
     s.add("Java");

@@ -16,16 +16,16 @@ public class LinkedList<T> {
 
   public boolean add(T t) {
     Node<T> tAsNode = new Node<>(t, t.hashCode(), null);
-    if (contains(tAsNode) || t == null) {
+    if (contains(tAsNode)) {
       return false;
     }
-    Node<T> followNode = headNode;
-    while (tAsNode.getKey() > followNode.getKey()
-        && followNode.getNext() != null) {
-      followNode = followNode.getNext();
+    Node<T> pointer = headNode;
+    while (tAsNode.getKey() > pointer.getKey()
+        && pointer.getNext() != null) {
+      pointer = pointer.getNext();
     }
-    tAsNode.setNext(followNode.getNext());
-    followNode.setNext(tAsNode);
+    tAsNode.setNext(pointer.getNext());
+    pointer.setNext(tAsNode);
 
     size++;
     return true;
