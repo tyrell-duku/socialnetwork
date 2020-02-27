@@ -9,16 +9,16 @@ public class FirstBoard implements Board {
   private LinkedList<Message> messages;
 
   public FirstBoard() {
-    messages = new LinkedList<Message>();
+    messages = new LinkedList<>();
   }
 
   @Override
-  public boolean addMessage(Message message) {
+  public synchronized boolean addMessage(Message message) {
     return messages.add(message);
   }
 
   @Override
-  public boolean deleteMessage(Message message) {
+  public synchronized boolean deleteMessage(Message message) {
     return messages.remove(message.getMessageId());
   }
 

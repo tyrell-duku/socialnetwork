@@ -13,12 +13,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.junit.Test;
+import socialnetwork.domain.implementations.FirstBacklog;
 import socialnetwork.domain.implementations.FirstBoard;
 import socialnetwork.domain.implementations.Message;
 import socialnetwork.domain.implementations.SocialNetwork;
 import socialnetwork.domain.implementations.User;
 import socialnetwork.domain.implementations.Worker;
-import socialnetwork.domain.implementations.coarse.CoarseBacklog;
 import socialnetwork.domain.interfaces.Backlog;
 import socialnetwork.domain.interfaces.Board;
 
@@ -69,7 +69,7 @@ public class StressTests {
 
   private void runExperiment(ExperimentSettings settings) {
     // TODO replace by your Backlog implementation
-    Backlog backlog = new CoarseBacklog();
+    Backlog backlog = new FirstBacklog();
     SocialNetwork socialNetwork = new SocialNetwork(backlog);
 
     Worker[] workers = new Worker[settings.nWorkers];
@@ -124,9 +124,8 @@ public class StressTests {
                 e.printStackTrace();
               }
             });
-
+    System.out.println(backlog.toString());
     assertEquals(0, backlog.numberOfTasksInTheBacklog());
-    //TODO: Point reached in TestSmallParameters
     System.out.println("Work's done, checking for consistency...");
 
     Map<User, Set<Integer>> userToReceivedMessages = new HashMap<>();

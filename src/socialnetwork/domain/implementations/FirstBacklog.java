@@ -15,11 +15,11 @@ public class FirstBacklog implements Backlog<Task> {
 
   @Override
   public boolean add(Task task) {
-    return backlog.add(task);
+    return backlog.stackAdd(task);
   }
 
   @Override
-  public Optional<Task> getNextTaskToProcess() {
+  public synchronized Optional<Task> getNextTaskToProcess() {
     if (backlog.size() == 0) {
       return Optional.empty();
     }

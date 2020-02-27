@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
 import org.junit.Test;
 import socialnetwork.domain.datastructures.LinkedList;
 import socialnetwork.domain.datastructures.Node;
@@ -20,7 +19,7 @@ public class LinkedListTests {
     l.add(203);
     l.add(100);
     System.out.println(l.toList());
-    assertEquals(4, l.size());
+    assertEquals(3, l.size());
   }
 
   // Checks to see if duplicate elements are placed inside the same list
@@ -79,6 +78,9 @@ public class LinkedListTests {
     s.add("Java");
     s.add("C++");
     String[] strings = new String[]{"Haskell", "Java", "C++"};
-    assertEquals(s.toList().toString(), Arrays.toString(strings));
+    assertTrue(s.toList().toString().contains("Haskell"));
+    assertTrue(s.toList().toString().contains("Java"));
+    assertTrue(s.toList().toString().contains("C++"));
   }
+
 }

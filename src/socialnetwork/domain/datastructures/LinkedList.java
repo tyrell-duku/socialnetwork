@@ -2,49 +2,48 @@ package socialnetwork.domain.datastructures;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class LinkedList<T> {
 
   private Node<T> headNode;
   private int size;
-
+  private final Lock l = new ReentrantLock();
   public LinkedList() {
-    headNode = new Node<T>(null, Integer.MIN_VALUE, null);
+    headNode = new Node<T>(null, Integer.MAX_VALUE, null);
     size = 0;
   }
 
-  public boolean add(T t) {
+  public synchronized boolean add(T t) {
     Node<T> tAsNode = new Node<>(t, t.hashCode(), null);
     if (contains(tAsNode)) {
       return false;
     }
     Node<T> pointer = headNode;
-    while (tAsNode.getKey() > pointer.getKey()
-        && pointer.getNext() != null) {
+    while (pointer.getNext() != null && tAsNode.getKey() <= pointer.getNext()
+        .getKey()) {
       pointer = pointer.getNext();
     }
     tAsNode.setNext(pointer.getNext());
     pointer.setNext(tAsNode);
-
     size++;
     return true;
   }
 
-  public boolean remove(int key) {
-    if (headNode.getNext() == null && key != headNode.getKey()) {
-      throw new NoSuchElementException("No elements inside an empty list.");
+  public synchronized boolean remove(int key) {
+    Node<T> pointer = headNode;
+    while (pointer.getNext() != null && pointer.getNext().getKey() != key) {
+      pointer = pointer.getNext();
     }
-    Node<T> followNode = headNode;
-    Node<T> cycleThroughNode = followNode.getNext();
-    while (key != cycleThroughNode.getKey()) {
-      cycleThroughNode = cycleThroughNode.getNext();
-      followNode = followNode.getNext();
+    if (pointer.getNext() == null) {
+      return false;
     }
-    followNode.setNext(cycleThroughNode.getNext());
+    pointer.setNext(pointer.getNext().getNext());
     size--;
     return true;
   }
+
 
   public int size() {
     return size;
@@ -54,16 +53,8 @@ public class LinkedList<T> {
     return headNode.getNext();
   }
 
-  public Node<T> poll() {
-    remove(headNode.getNext().getKey());
-    return headNode.getNext();
-  }
 
-  public T item(Node<T> node) {
-    return node.getItem();
-  }
-
-  public boolean contains(Node<T> search) {
+  public synchronized boolean contains(Node<T> search) {
     Node<T> pointer = headNode;
     boolean found = false;
     while (pointer.getNext() != null) {
@@ -77,7 +68,7 @@ public class LinkedList<T> {
     return found;
   }
 
-  public List<T> toList() {
+  public synchronized List<T> toList() {
     List<T> list = new ArrayList<>();
     Node<T> pointer = headNode.getNext();
     while (pointer != null) {
@@ -85,5 +76,22 @@ public class LinkedList<T> {
       pointer = pointer.getNext();
     }
     return list;
+  }
+
+  public synchronized boolean stackAdd(T value) {
+    Node<T> pointer = headNode;
+    Node<T> valAsNode = new Node<>(value, value.hashCode(), null);
+    while (pointer.getNext() != null && pointer.getNext().getKey() <= value
+        .hashCode()) {
+      pointer = pointer.getNext();
+    }
+
+    if (pointer.getKey() == value.hashCode()) {
+      return false;
+    }
+    valAsNode.setNext(pointer.getNext());
+    pointer.setNext(valAsNode);
+    size++;
+    return true;
   }
 }
