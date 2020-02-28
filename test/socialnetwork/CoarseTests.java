@@ -22,7 +22,7 @@ import socialnetwork.domain.implementations.coarse.CoarseBoard;
 import socialnetwork.domain.interfaces.Backlog;
 import socialnetwork.domain.interfaces.Board;
 
-public class StressTests {
+public class CoarseTests {
 
   @Test
   public void testSmallParams() {

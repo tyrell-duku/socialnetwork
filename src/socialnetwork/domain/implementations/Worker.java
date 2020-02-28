@@ -39,7 +39,7 @@ public class Worker extends Thread {
 
   public void process(Task nextTask) {
     Message m = nextTask.getMessage();
-    switch (nextTask.command) {
+    switch (nextTask.getCommand()) {
       case POST:
         nextTask.getBoard().addMessage(m);
         break;

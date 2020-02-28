@@ -1,6 +1,8 @@
 package socialnetwork.domain.implementations;
 
 import java.util.Optional;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import socialnetwork.domain.datastructures.LinkedList;
 import socialnetwork.domain.datastructures.Node;
 import socialnetwork.domain.interfaces.Backlog;
@@ -8,6 +10,7 @@ import socialnetwork.domain.interfaces.Backlog;
 public class FirstBacklog implements Backlog<Task> {
 
   private LinkedList<Task> backlog;
+  private final Lock l = new ReentrantLock();
 
   public FirstBacklog() {
     backlog = new LinkedList<>();

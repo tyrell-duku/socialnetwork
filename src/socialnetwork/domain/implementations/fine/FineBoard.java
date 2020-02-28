@@ -1,15 +1,16 @@
-package socialnetwork.domain.implementations;
+package socialnetwork.domain.implementations.fine;
 
 import java.util.List;
-import socialnetwork.domain.datastructures.LinkedList;
+import socialnetwork.domain.datastructures.FineLinkedList;
+import socialnetwork.domain.implementations.Message;
 import socialnetwork.domain.interfaces.Board;
 
-public class FirstBoard implements Board {
+public class FineBoard implements Board {
 
-  private LinkedList<Message> messages;
+  private FineLinkedList<Message> messages;
 
-  public FirstBoard() {
-    messages = new LinkedList<>();
+  public FineBoard() {
+    messages = new FineLinkedList<>();
   }
 
   @Override
@@ -24,7 +25,7 @@ public class FirstBoard implements Board {
 
   @Override
   public int size() {
-    return messages.size();
+    return messages.size().get();
   }
 
   @Override

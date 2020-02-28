@@ -24,7 +24,7 @@ public class Node<E> {
     return item;
   }
 
-  public void setNext(Node<E> next) {
+  public synchronized void setNext(Node<E> next) {
     this.next = next;
   }
 }

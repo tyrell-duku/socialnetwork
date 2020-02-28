@@ -14,18 +14,18 @@ import socialnetwork.domain.implementations.Task;
 import socialnetwork.domain.implementations.Task.Command;
 import socialnetwork.domain.implementations.User;
 import socialnetwork.domain.implementations.Worker;
-import socialnetwork.domain.implementations.fine.FineBacklog;
-import socialnetwork.domain.implementations.fine.FineBoard;
+import socialnetwork.domain.implementations.coarse.CoarseBacklog;
+import socialnetwork.domain.implementations.coarse.CoarseBoard;
 import socialnetwork.domain.interfaces.Backlog;
 import socialnetwork.domain.interfaces.Board;
 
-public class BasicTests {
+public class CoarseBasicTests {
 
   @Test
   public void testRegistration() {
     // TODO replace null here by your implementation of Board and Backlog
-    Backlog backlog = new FineBacklog();
-    Board board = new FineBoard();
+    Backlog backlog = new CoarseBacklog();
+    Board board = new CoarseBoard();
     SocialNetwork socialNetwork = new SocialNetwork(backlog);
     User user = new User("test", socialNetwork);
     socialNetwork.register(user, board);
@@ -37,10 +37,10 @@ public class BasicTests {
   @Test
   public void testMessageLifecycle() {
     // TODO replace null here by your implementation of Board and Backlog
-    Backlog backlog = new FineBacklog();
-    Board board1 = new FineBoard();
-    Board board2 = new FineBoard();
-    Board board3 = new FineBoard();
+    Backlog backlog = new CoarseBacklog();
+    Board board1 = new CoarseBoard();
+    Board board2 = new CoarseBoard();
+    Board board3 = new CoarseBoard();
     SocialNetwork socialNetwork = new SocialNetwork(backlog);
     User user1 = new User("test1", socialNetwork);
     User user2 = new User("test2", socialNetwork);
@@ -88,7 +88,6 @@ public class BasicTests {
     worker.process(t1);
     worker.process(t2);
     worker.process(t3);
-    System.out.println(board1.getBoardSnapshot());
     assertTrue(board1.getBoardSnapshot().contains(sent));
     assertTrue(board2.getBoardSnapshot().contains(sent));
     assertTrue(board3.getBoardSnapshot().contains(sent));

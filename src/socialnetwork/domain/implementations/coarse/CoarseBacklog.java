@@ -15,8 +15,8 @@ public class CoarseBacklog extends FirstBacklog {
 
   @Override
   public boolean add(Task task) {
+    l.lock();
     try {
-      l.lock();
       return super.add(task);
     } finally {
       l.unlock();
@@ -25,6 +25,7 @@ public class CoarseBacklog extends FirstBacklog {
 
   @Override
   public boolean contains(Task t) {
+    l.lock();
     try {
       return super.contains(t);
     } finally {

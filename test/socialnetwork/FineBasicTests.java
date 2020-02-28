@@ -19,7 +19,7 @@ import socialnetwork.domain.implementations.fine.FineBoard;
 import socialnetwork.domain.interfaces.Backlog;
 import socialnetwork.domain.interfaces.Board;
 
-public class BasicTests {
+public class FineBasicTests {
 
   @Test
   public void testRegistration() {
@@ -88,7 +88,6 @@ public class BasicTests {
     worker.process(t1);
     worker.process(t2);
     worker.process(t3);
-    System.out.println(board1.getBoardSnapshot());
     assertTrue(board1.getBoardSnapshot().contains(sent));
     assertTrue(board2.getBoardSnapshot().contains(sent));
     assertTrue(board3.getBoardSnapshot().contains(sent));
@@ -135,3 +134,4 @@ public class BasicTests {
     assertTrue(board3.getBoardSnapshot().isEmpty());
   }
 }
+

@@ -41,7 +41,7 @@ public class User extends Thread {
 
   public void decideAction() {
     Random r = new Random();
-    int choice = r.nextInt(0);
+    int choice = r.nextInt(3);
     switch (choice) {
       case 0:
         socialNetwork.getAllUsers();

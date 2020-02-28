@@ -2,14 +2,12 @@ package socialnetwork.domain.datastructures;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class LinkedList<T> {
 
   private Node<T> headNode;
   private int size;
-  private final Lock l = new ReentrantLock();
+
   public LinkedList() {
     headNode = new Node<T>(null, Integer.MAX_VALUE, null);
     size = 0;

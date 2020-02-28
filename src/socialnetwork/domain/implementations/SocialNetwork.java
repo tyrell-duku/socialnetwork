@@ -79,7 +79,7 @@ public class SocialNetwork {
     if (!getBoards().containsKey(user)) {
       throw new RuntimeException(
           "Sender " + user
-              + " not (correctly) registerd to the social network");
+              + " not (correctly) registered to the social network");
     }
   }
 

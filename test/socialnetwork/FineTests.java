@@ -17,12 +17,12 @@ import socialnetwork.domain.implementations.Message;
 import socialnetwork.domain.implementations.SocialNetwork;
 import socialnetwork.domain.implementations.User;
 import socialnetwork.domain.implementations.Worker;
-import socialnetwork.domain.implementations.coarse.CoarseBacklog;
-import socialnetwork.domain.implementations.coarse.CoarseBoard;
+import socialnetwork.domain.implementations.fine.FineBacklog;
+import socialnetwork.domain.implementations.fine.FineBoard;
 import socialnetwork.domain.interfaces.Backlog;
 import socialnetwork.domain.interfaces.Board;
 
-public class StressTests {
+public class FineTests {
 
   @Test
   public void testSmallParams() {
@@ -69,7 +69,7 @@ public class StressTests {
 
   private void runExperiment(ExperimentSettings settings) {
     // TODO replace by your Backlog implementation
-    Backlog backlog = new CoarseBacklog();
+    Backlog backlog = new FineBacklog();
     SocialNetwork socialNetwork = new SocialNetwork(backlog);
 
     Worker[] workers = new Worker[settings.nWorkers];
@@ -92,7 +92,7 @@ public class StressTests {
         .forEach(
             u -> {
               // TODO add your own board implementation
-              socialNetwork.register(u, new CoarseBoard());
+              socialNetwork.register(u, new FineBoard());
               u.start();
             });
 
@@ -188,3 +188,4 @@ public class StressTests {
     }
   }
 }
+
